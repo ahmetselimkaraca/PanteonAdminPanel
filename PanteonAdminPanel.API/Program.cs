@@ -13,7 +13,6 @@ using PanteonAdminPanel.API.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
@@ -56,9 +55,6 @@ var awsOptions = new AWSOptions
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonDynamoDB>();
 builder.Services.AddSingleton<IDynamoDBContext, DynamoDBContext>();
-
-
-
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

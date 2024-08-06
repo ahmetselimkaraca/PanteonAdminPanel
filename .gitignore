@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 
-/PanteonAdminPanel.API/appsettings.json
+./PanteonAdminPanel.API/appsettings.json
 appsettings.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
