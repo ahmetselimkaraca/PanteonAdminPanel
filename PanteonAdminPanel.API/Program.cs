@@ -30,16 +30,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-var dbServer = builder.Configuration["DB_SERVER"];
-var dbName = builder.Configuration["DB_NAME"];
-var dbUser = builder.Configuration["DB_USER"];
-var dbPassword = builder.Configuration["DB_PASSWORD"];
-
-var connectionString = $"Server={dbServer};Database={dbName};User={dbUser};Password={dbPassword};";
-
-
 builder.Services.AddDbContext<AuthDbContext>(options =>
-    options.UseMySQL(connectionString));
+    options.UseMySQL(builder.Configuration.GetConnectionString("AuthConnection")));
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IConfigurationRepository, DynamoDbConfigurationRepository>();
@@ -50,9 +42,9 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<AuthDbContext>()
     .AddDefaultTokenProviders();
 
-var awsAccessKey = builder.Configuration["AWS_ACCESS_KEY"];
-var awsSecretKey = builder.Configuration["AWS_SECRET_KEY"];
-var awsRegion = builder.Configuration["AWS_REGION"];
+var awsAccessKey = builder.Configuration["AWS:AccessKey"];
+var awsSecretKey = builder.Configuration["AWS:SecretKey"];
+var awsRegion = builder.Configuration["AWS:Region"];
 
 // AWS Configuration
 var awsOptions = new AWSOptions
@@ -80,9 +72,9 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 
-var jwtKey = builder.Configuration["JWT_KEY"];
-var jwtIssuer = builder.Configuration["JWT_ISSUER"];
-var jwtAudience = builder.Configuration["JWT_AUDIENCE"];
+var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+var jwtAudience = builder.Configuration["Jwt:Audience"];
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters()
